@@ -1,0 +1,5 @@
+.bundle
+vendor/bundle
+ext/datafusion_ruby/target
+lib/datafusion/datafusion_ruby.bundle
+lib/datafusion/datafusion_ruby.so

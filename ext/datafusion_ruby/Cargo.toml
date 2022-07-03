@@ -1,0 +1,12 @@
+[package]
+name = "datafusion_ruby"
+version = "0.0.1"
+authors = ["Datafusion Contrib Developers"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+magnus = "0.3"
+datafusion = { version = "^8.0.0" }
