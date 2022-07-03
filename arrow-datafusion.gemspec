@@ -8,15 +8,16 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Ruby bindings of Apache Arrow Datafusion"
   spec.description =
-    "DataFusion is an extensible query execution framework, written in Rust, that uses Apache Arrow as its in-memory format."
+    "Ruby bindings of Apache Arrow Datafusion"
   spec.license = "Apache-2.0"
 
   spec.files = ["README.md", "#{spec.name}.gemspec", "LICENSE"]
-  spec.files += Dir.glob("ext/datafusion/src/**/*.rs")
-  spec.files += ["ext/datafusion/Rakefile", "ext/datafusion/Cargo.toml", "ext/datafusion/Cargo.lock"]
+  spec.files += Dir.glob("ext/datafusion_ruby/src/**/*.rs")
+  spec.files += ["ext/datafusion_ruby/Rakefile", "ext/datafusion_ruby/Cargo.toml", "ext/datafusion_ruby/Cargo.lock"]
   spec.files += Dir.glob("lib/**/*.rb")
-  spec.extensions = ["ext/datafusion/Rakefile"]
+  spec.extensions = ["ext/datafusion_ruby/Rakefile"]
 
   # actually a build time dependency, but that's not an option.
   spec.add_runtime_dependency "rake", "> 1"
+  spec.required_ruby_version = ">= 2.6.0"
 end

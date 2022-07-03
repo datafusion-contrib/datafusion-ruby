@@ -1,6 +1,12 @@
 install:
 	bundle install
 
+build:
+	gem build *.gemspec
+
+publish:
+	gem push *.gem
+
 test:
 	cd ext/datafusion_ruby && rake
 	bundle exec rspec
