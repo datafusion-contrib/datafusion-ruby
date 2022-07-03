@@ -1,10 +1,11 @@
-use magnus::{define_class, function, prelude::*, Error};
+use magnus::{define_module, function, prelude::*, Error};
 
 mod context;
 
 #[magnus::init]
 fn init() -> Result<(), Error> {
-    let class = define_class("SessionContext", Default::default())?;
+    let module = define_module("Datafusion")?;
+    let class = module.define_class("SessionContext", Default::default())?;
     class.define_singleton_method("new", function!(context::RbSessionContext::new, 0))?;
     Ok(())
 }

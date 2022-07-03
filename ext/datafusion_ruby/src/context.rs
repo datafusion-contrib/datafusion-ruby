@@ -1,6 +1,6 @@
 use datafusion::execution::context::SessionContext;
 
-#[magnus::wrap(class = "SessionContext")]
+#[magnus::wrap(class = "Datafusion::SessionContext")]
 pub(crate) struct RbSessionContext {
     ctx: SessionContext,
 }
