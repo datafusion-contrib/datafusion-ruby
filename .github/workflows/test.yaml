@@ -1,0 +1,45 @@
+name: Test
+
+on:
+  push:
+#    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version:
+        - "2.6"
+        - "2.7"
+        - "3.0"
+        - "3.1"
+        toolchain:
+        - "stable"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.toolchain }}
+        default: true
+    - name: Set LD_LIBRARY_PATH
+      run: echo LD_LIBRARY_PATH=$(ruby -e 'print RbConfig::CONFIG["libdir"]') >> $GITHUB_ENV
+    - name: Set up Cargo cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.cargo
+        key: cargo-cache-${{ steps.rust-toolchain.outputs.rustc_hash }}-${{ hashFiles('ext/datafusion_ruby/Cargo.lock') }}
+    - name: Install dependencies
+      run: make install
+    - name: Check Formatting
+      run: make fmt-check
+    - name: Run test
+      run: make test

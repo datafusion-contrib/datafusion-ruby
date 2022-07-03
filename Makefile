@@ -1,4 +1,4 @@
-dev:
+install:
 	bundle install
 
 test:
@@ -8,3 +8,7 @@ test:
 fmt:
 	cd ext/datafusion_ruby && cargo fmt
 	bundle exec rufo .
+
+fmt-check:
+	cd ext/datafusion_ruby && cargo fmt --check
+	bundle exec rufo . --check
