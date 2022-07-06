@@ -47,4 +47,4 @@ puts(data_frame.to_table)
 
 ## Alternative
 
-There is another Ruby bindings available at https://github.com/jychen7/arrow-datafusion-ruby. It focus on running query on Object Store and does not bundle with gem "red-arrow".
+There is another Ruby bindings available at gem ["arrow-datafusion"](https://github.com/jychen7/arrow-datafusion-ruby). It focus on running query on Object Store and does not bundle with gem "red-arrow".
