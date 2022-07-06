@@ -44,3 +44,7 @@ puts(data_frame.to_table)
 #      boolean    integer
 # 0       true          1
 ```
+
+## Alternative
+
+There is another Ruby bindings available at gem ["arrow-datafusion"](https://github.com/jychen7/arrow-datafusion-ruby). It focus on running query on Object Store and does not bundle with gem "red-arrow".
