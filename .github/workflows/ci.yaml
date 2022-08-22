@@ -90,5 +90,8 @@ jobs:
           gem install pkg/*.gem
       - name: Test
         run: |
-          gem install test-unit
+          rm -rf lib
+          gem install \
+            red-parquet \
+            test-unit
           test/run.rb

@@ -29,6 +29,8 @@ module DataFusion
     end
 
     def require_libraries
+      require_relative "csv-read-options"
+      require_relative "parquet-read-options"
       require_relative "session-context"
     end
   end

@@ -45,4 +45,62 @@ class SessionContextTest < Test::Unit::TestCase
       assert_equal(table, data_frame.to_table)
     end
   end
+
+  test("#register_csv") do
+    Tempfile.open(["red-datafusion", ".tsv"]) do |tsv|
+      tsv.puts("string\tinteger\n")
+      tsv.puts("hello\t1\n")
+      tsv.puts("world\t10\n")
+      tsv.close
+      @context.register_csv("data",
+                            tsv.path,
+                            delimiter: "\t",
+                            file_extension: ".tsv")
+      data_frame = @context.sql("SELECT * FROM data")
+      table = Arrow::Table.new([
+                                 {
+                                   name: "string",
+                                   data_type: :string,
+                                   nullable: false,
+                                 },
+                                 {
+                                   name: "integer",
+                                   data_type: :int64,
+                                   nullable: false,
+                                 },
+                               ],
+                               [
+                                 ["hello", 1],
+                                 ["world", 10],
+                               ])
+      assert_equal(table, data_frame.to_table)
+    end
+  end
+
+  test("#register_parquet") do
+    table = Arrow::Table.new(boolean: [true, false, nil],
+                             integer: [1, nil, 3])
+    Tempfile.open(["red-datafusion", ".parquet"]) do |parquet|
+      parquet.close
+      table.save(parquet.path)
+      @context.register_parquet("data",
+                                parquet.path,
+                                pruning: true)
+      data_frame = @context.sql("SELECT * FROM data WHERE integer > 2")
+      filtered_table = Arrow::Table.new([
+                                          {
+                                            name: "boolean",
+                                            data_type: :boolean,
+                                          },
+                                          {
+                                            name: "integer",
+                                            data_type: :uint8,
+                                          },
+                                        ],
+                                        [
+                                          [nil, 3],
+                                        ])
+      assert_equal(filtered_table, data_frame.to_table)
+    end
+  end
 end

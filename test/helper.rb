@@ -15,6 +15,9 @@
 # specific language governing permissions and limitations
 # under the License.
 
+require "tempfile"
+
+require "parquet"
 require "test-unit"
 
 require "datafusion"

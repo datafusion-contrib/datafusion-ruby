@@ -23,5 +23,6 @@ gemspec
 
 gem "bundler"
 gem "rake"
+gem "red-parquet"
 gem "test-unit"
 gem "yard"
