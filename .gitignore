@@ -15,11 +15,4 @@
 # specific language governing permissions and limitations
 # under the License.
 
-module DataFusion
-  VERSION = "10.0.0"
-
-  module Version
-    MAJOR, MINOR, MICRO = VERSION.split(".").collect(&:to_i)
-    STRING = VERSION
-  end
-end
+/pkg/

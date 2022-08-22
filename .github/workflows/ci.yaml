@@ -69,82 +69,26 @@ jobs:
           - '3.1'
         runs-on:
           - ubuntu-latest
-          - macos-latest
+          # - macos-latest
           # - windows-latest
     runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v3
-
-      # Install datafusion-c-glib
-      # We can use packages once datafusion-c-glib is released.
-      - uses: actions/checkout@v3
-        with:
-          repository: 'datafusion-contrib/datafusion-c'
-          path: datafusion-c
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-      - name: Prepare on Ubuntu
-        if: |
-          matrix.runs-on == 'ubuntu-latest'
-        run: |
+      - run: |
           sudo apt update
-          sudo apt install -y -V \
-            ca-certificates \
-            lsb-release \
-            wget
+          sudo apt install -y -V ca-certificates lsb-release wget
           wget https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
-          sudo apt install -y -V \
-            ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+          sudo apt install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
           sudo apt update
-          sudo apt install -y -V \
-            libarrow-glib-dev \
-            libgirepository1.0-dev \
-            ninja-build
-          pip install meson
-      - name: Prepare on macOS
-        if: |
-          matrix.runs-on == 'macos-latest'
-        run: |
-          brew update --preinstall
-          brew bundle --file=datafusion-c/Brewfile
-      - uses: actions-rs/toolchain@v1
-        id: rust-toolchain
-        with:
-          override: true
-          toolchain: stable
-      - name: Cache Cargo
-        uses: actions/cache@v2
-        with:
-          path: ~/.cargo
-          key: cargo-test-${{ matrix.runs-on }}-${{ steps.rust-toolchain.outputs.rustc_hash }}-${{ hashFiles('datafusion-c/**/Cargo.toml') }}
-      - name: Install cargo-c
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-c
-      - name: Setup
-        run: |
-          meson setup \
-            --libdir=lib \
-            --prefix=$PWD/local \
-            datafusion-c-build \
-            datafusion-c
-      - name: Build
-        run: |
-          ninja -C datafusion-c-build
-      - name: Install
-        run: |
-          ninja -C datafusion-c-build install
-
-      # datafusion-ruby
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
+      - name: Install
+        run: |
+          bundle exec rake build
+          gem install pkg/*.gem
       - name: Test
         run: |
-          export DYLD_LIBRARY_PATH=${PWD}/local/lib:${DYLD_LIBRARY_PATH}
-          export GI_TYPELIB_PATH=${PWD}/local/lib/girepository-1.0:${GI_TYPELIB_PATH}
-          export LD_LIBRARY_PATH=${PWD}/local/lib:${LD_LIBRARY_PATH}
-          bundle exec test/run.rb
+          gem install test-unit
+          test/run.rb
