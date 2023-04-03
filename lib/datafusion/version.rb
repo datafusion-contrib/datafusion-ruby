@@ -1,4 +1,4 @@
-# Copyright 2022 Sutou Kouhei <kou@clear-code.com>
+# Copyright 2022-2023 Sutou Kouhei <kou@clear-code.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 
 module DataFusion
-  VERSION = "10.0.0"
+  VERSION = "21.0.0"
 
   module Version
     MAJOR, MINOR, MICRO = VERSION.split(".").collect(&:to_i)
