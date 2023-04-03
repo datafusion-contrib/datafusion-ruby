@@ -1,4 +1,4 @@
-# Copyright 2022 Sutou Kouhei <kou@clear-code.com>
+# Copyright 2022-2023 Sutou Kouhei <kou@clear-code.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -57,12 +57,10 @@ class SessionContextTest < Test::Unit::TestCase
                                  {
                                    name: "string",
                                    data_type: :string,
-                                   nullable: false,
                                  },
                                  {
                                    name: "integer",
                                    data_type: :int64,
-                                   nullable: false,
                                  },
                                ],
                                [

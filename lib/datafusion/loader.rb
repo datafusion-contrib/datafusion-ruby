@@ -1,4 +1,4 @@
-# Copyright 2022 Sutou Kouhei <kou@clear-code.com>
+# Copyright 2022-2023 Sutou Kouhei <kou@clear-code.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ module DataFusion
     def require_libraries
       require_relative "csv-read-options"
       require_relative "parquet-read-options"
+      require_relative "parquet-writer-properties"
       require_relative "session-context"
     end
   end
