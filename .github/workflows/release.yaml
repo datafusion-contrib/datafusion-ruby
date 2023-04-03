@@ -33,7 +33,7 @@ jobs:
             NEWS.md > release-note.md
       - name: Upload to release
         run: |
-          gh release create \
+          gh release create ${GITHUB_REF_NAME} \
             --discussion-category Announcements \
             --notes-file release-node.md
         env:
